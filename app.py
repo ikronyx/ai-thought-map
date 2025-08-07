@@ -2,9 +2,6 @@ import streamlit as st
 from modules import sentence_splitter, embedder, clustering, visualizer, summarizer
 from utils import exporter
 import streamlit.components.v1 as components
-import nltk
-
-nltk.download('punkt_tab')
 
 st.set_page_config(page_title="AI Thought Mapping", layout="wide")
 st.title("🧠 AI Research Companion: Thought Mapping")
@@ -16,13 +13,17 @@ with st.sidebar:
     st.header("⚙️ Clustering Settings")
     eps = st.slider("Clustering threshold (DBSCAN - eps)", 0.1, 1.0, 0.5)
     min_samples = st.slider("Minimum samples per cluster", 1, 10, 2)
+    n_clusters = st.slider("Number of clusters (KMeans)", 2, 10, 3)
     summarize = st.checkbox("Generate AI summaries for each cluster", value=False)
 
 if st.button("🧠 Generate Thought Map") and text_input:
     with st.spinner("Processing text..."):
         sentences = sentence_splitter.split_sentences(text_input)
         embeddings = embedder.get_embeddings(sentences)
-        labels = clustering.cluster_embeddings(embeddings, eps, min_samples)
+        labels = clustering.cluster_embeddings(embeddings, eps, min_samples, n_clusters)
+
+        # Check if clustering is working correctly
+        st.write("Cluster Labels:", labels)
 
         html_path = visualizer.generate_graph(sentences, labels)
         components.html(open(html_path, 'r', encoding='utf-8').read(), height=600, scrolling=True)

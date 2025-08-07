@@ -13,8 +13,8 @@ def export_markdown(sentences, labels):
         clusters.setdefault(l, []).append(s)
 
     for label, group in clusters.items():
-        output += f"## Cluster {label}\n"
+        output += f"## Cluster {label}\\n"
         for idea in group:
-            output += f"- {idea}\n"
-        output += "\n"
+            output += f"- {idea}\\n"
+        output += "\\n"
     return output

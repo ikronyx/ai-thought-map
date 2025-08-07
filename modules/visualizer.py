@@ -6,9 +6,10 @@ def generate_graph(sentences, labels):
     G = nx.Graph()
     clusters = {}
 
+    # Use integer labels to avoid serialization issues
     for idx, (sentence, label) in enumerate(zip(sentences, labels)):
         idx = int(idx)
-        label = int(label)
+        label = int(label)  # Ensure label is an int
         G.add_node(idx, label=sentence, group=label)
         clusters.setdefault(label, []).append(idx)
 
@@ -20,6 +21,6 @@ def generate_graph(sentences, labels):
     net = Network(notebook=False, height="500px", width="100%")
     net.from_nx(G)
     net.repulsion()
-    net.save_graph("graph.html")
 
+    net.save_graph("graph.html")
     return "graph.html"
