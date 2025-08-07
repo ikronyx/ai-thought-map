@@ -2,6 +2,9 @@ import streamlit as st
 from modules import sentence_splitter, embedder, clustering, visualizer, summarizer
 from utils import exporter
 import streamlit.components.v1 as components
+import nltk
+
+nltk.download('punkt_tab')
 
 st.set_page_config(page_title="AI Thought Mapping", layout="wide")
 st.title("🧠 AI Research Companion: Thought Mapping")
