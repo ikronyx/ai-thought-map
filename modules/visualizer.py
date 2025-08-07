@@ -7,13 +7,15 @@ def generate_graph(sentences, labels):
     clusters = {}
 
     for idx, (sentence, label) in enumerate(zip(sentences, labels)):
+        idx = int(idx)
+        label = int(label)
         G.add_node(idx, label=sentence, group=label)
         clusters.setdefault(label, []).append(idx)
 
     for cluster_nodes in clusters.values():
         for i in range(len(cluster_nodes)):
             for j in range(i+1, len(cluster_nodes)):
-                G.add_edge(cluster_nodes[i], cluster_nodes[j])
+                G.add_edge(int(cluster_nodes[i]), int(cluster_nodes[j]))
 
     net = Network(notebook=False, height="500px", width="100%")
     net.from_nx(G)
